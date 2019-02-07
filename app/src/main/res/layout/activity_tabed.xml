@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TabedActivity"
+    android:background="@color/colorPrimary"
+    >
+
+
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+
+
+
+
+
+       >
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="50dp"
+           android:orientation="horizontal"
+           android:gravity="center"
+
+           >
+
+           <Button
+               android:id="@+id/today"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:layout_margin="3dp"
+               android:padding="10dp"
+               android:textColor="@color/colorPrimary"
+               android:background="@drawable/semi_round"
+
+               android:text="Today's Class"
+
+               />
+
+           <Button
+               android:id="@+id/tomorrow"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:layout_margin="3dp"
+               android:padding="10dp"
+               android:textColor="#fff"
+               android:background="@color/colorPrimary"
+
+
+
+               android:text="Tomorrow"
+
+
+               />
+
+           <Button
+               android:id="@+id/profile"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:layout_margin="3dp"
+               android:padding="10dp"
+               android:textColor="#fff"
+               android:background="@color/colorPrimary"
+
+
+               android:text="Others"
+
+
+
+               />
+
+
+       </LinearLayout>
+
+       <android.support.v4.view.ViewPager
+           android:id="@+id/viewpager"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_alignParentStart="true"
+           android:layout_alignParentTop="true"
+           android:layout_marginStart="0dp"
+           android:layout_marginTop="51dp"
+           android:backgroundTint="@color/colorPrimary"
+
+
+           />
+
+       <android.support.design.widget.BottomNavigationView
+           android:id="@+id/bottomNav"
+
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_alignParentBottom="true"
+           app:menu="@menu/bottom_navigation"
+           android:background="?android:attr/windowBackground"
+           
+
+
+           >
+
+
+       </android.support.design.widget.BottomNavigationView>
+
+
+   </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

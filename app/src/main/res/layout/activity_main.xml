@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="#302f2f"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:weightSum="11"
+    >
+
+    <ImageView
+        android:id="@+id/loginimg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:src="@drawable/homeyellow"
+        android:scaleType="centerCrop"
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:weightSum="5"
+        >
+
+
+    <LinearLayout
+        android:id="@+id/title"
+        android:layout_width="330dp"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/semi_round"
+        android:paddingTop="1dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:layout_gravity="center"
+            android:text="Class Routine Assistant"
+            android:textColor="#000000"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+
+
+    </LinearLayout>
+
+
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/round_white"
+        android:hint="Enter your Email"
+        android:drawableLeft="@drawable/user"
+        android:drawablePadding="5dp"
+        android:paddingLeft="10dp"
+        android:textColorHint="#413f3f"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        android:typeface="serif" />
+
+    <EditText
+        android:id="@+id/pass"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/email"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/round_white"
+        android:hint="Enter Password"
+        android:drawableLeft="@drawable/pass"
+        android:drawablePadding="5dp"
+        android:paddingLeft="10dp"
+        android:textColorHint="#413f3f"
+        android:textColor="#000000"
+        android:textSize="15dp"
+        android:typeface="serif"
+        android:inputType="textPassword"
+        />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="250dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_below="@+id/pass"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/semi_round"
+        android:backgroundTint="#fdea01"
+        android:textColor="#000000"
+        android:text="LogIn"
+        android:textSize="25dp"
+        android:typeface="serif"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        />
+
+    <LinearLayout
+        android:id="@+id/forgot"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="11dp"
+            android:typeface="serif"
+            android:textStyle="italic"
+            android:text="Forgot your password?"
+            />
+    </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#1b2134"
+        >
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="20dp"
+            android:text="Learn More"
+            android:typeface="serif"
+            android:textAllCaps="false"
+            android:textSize="13dp"
+            android:background="@drawable/outereround"
+            android:textColor="#fff"
+
+            />
+        <Button
+            android:id="@+id/signUp"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:background="@drawable/round_white"
+            android:text="SignUp"
+            android:textAllCaps="false"
+            android:textColor="#ffff"
+            android:typeface="serif"
+            android:textSize="15dp"
+            android:backgroundTint="#cb0859"
+            />
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
