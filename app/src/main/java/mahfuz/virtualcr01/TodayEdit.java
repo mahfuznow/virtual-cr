@@ -1,9 +1,11 @@
 package mahfuz.virtualcr01;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,6 +18,11 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import org.json.JSONObject;
+
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -263,6 +270,62 @@ public class TodayEdit extends AppCompatActivity {
         });
 
 
+    }
+
+
+
+
+    public static class Notify extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+
+            //String tkn = "ck_rNJuzN3M:APA91bGUBcgl5V3S26e_BwaCYgiXFT20YvrOre3r-BBQjT3GXJZlApTtg-O2dskSmvcLjQOR7bx5mLIbDuWxq-Wtnwx5TxAnA0Bfs5Q02D1bLQLay-OD43c-e9bbxAgIA4vIEsS-PN4C";
+            String tkn= params[0];
+            String title=params[1];
+            String body=params[2];
+            Log.d("Error", tkn);
+            try {
+
+                URL url = new URL("https://fcm.googleapis.com/fcm/send");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setUseCaches(false);
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Authorization", "key=AIzaSyC4NOtjDrif-n7GRZgWWr2scMCYBtAsWAI");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                JSONObject json = new JSONObject();
+
+                json.put("to", tkn);
+
+
+                JSONObject info = new JSONObject();
+                info.put("title", title);   // Notification title
+                info.put("body", body);// Notification body
+
+                info.put("type","donor");
+
+                //json.put("notification", info);
+
+                json.put("data", info);
+
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(json.toString());
+                wr.flush();
+                conn.getInputStream();
+
+            } catch (Exception e) {
+                Log.d("Error", "" + e);
+            }
+
+
+            return null;
+        }
     }
 
 
