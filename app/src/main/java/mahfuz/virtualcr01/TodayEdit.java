@@ -123,7 +123,7 @@ public class TodayEdit extends AppCompatActivity {
                     year = documentSnapshot.getString("year");
                     semester = documentSnapshot.getString("semester");
 
-                    firebaseFirestore.collection("class").document("edit").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("edit").addSnapshotListener(new EventListener<DocumentSnapshot>() {
                         @Override
                         public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                             editdate = documentSnapshot.getString("date").trim();
@@ -261,10 +261,10 @@ public class TodayEdit extends AppCompatActivity {
                 setRandomNumber.put("edited", timeMill);
                 firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("todayEdit").update(setRandomNumber);
 
+                new Notify().execute(department,year,semester);
 
                 Intent intent = new Intent(TodayEdit.this, TabedActivity.class);
                 startActivity(intent);
-
 
             }
         });
@@ -281,11 +281,11 @@ public class TodayEdit extends AppCompatActivity {
         protected Void doInBackground(String... params) {
 
 
-            //String tkn = "ck_rNJuzN3M:APA91bGUBcgl5V3S26e_BwaCYgiXFT20YvrOre3r-BBQjT3GXJZlApTtg-O2dskSmvcLjQOR7bx5mLIbDuWxq-Wtnwx5TxAnA0Bfs5Q02D1bLQLay-OD43c-e9bbxAgIA4vIEsS-PN4C";
-            String tkn= params[0];
-            String title=params[1];
-            String body=params[2];
-            Log.d("Error", tkn);
+
+            String department=params[0];
+            String year=params[1];
+            String semester=params[2];
+
             try {
 
                 URL url = new URL("https://fcm.googleapis.com/fcm/send");
@@ -296,21 +296,20 @@ public class TodayEdit extends AppCompatActivity {
                 conn.setDoOutput(true);
 
                 conn.setRequestMethod("POST");
-                conn.setRequestProperty("Authorization", "key=AIzaSyC4NOtjDrif-n7GRZgWWr2scMCYBtAsWAI");
+                conn.setRequestProperty("Authorization", "key=AIzaSyBcjg4jnpZGMFNd5i45KFGpELLAZkyCp00");
                 conn.setRequestProperty("Content-Type", "application/json");
 
                 JSONObject json = new JSONObject();
 
-                json.put("to", tkn);
+                json.put("to","/topics/"+department+year+semester);
 
 
                 JSONObject info = new JSONObject();
-                info.put("title", title);   // Notification title
-                info.put("body", body);// Notification body
+                info.put("title", "Tomorrow's class schedule changed");   // Notification title
+                info.put("body", "Please check out the changes");// Notification body
 
-                info.put("type","donor");
+                info.put("type","tomorrow");
 
-                //json.put("notification", info);
 
                 json.put("data", info);
 

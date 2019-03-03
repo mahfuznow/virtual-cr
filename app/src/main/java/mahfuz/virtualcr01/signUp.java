@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class signUp extends AppCompatActivity {
     String identity, myunit, mydepartment,myyear,mysemester;
     Spinner unit, department,year,semester;
 
+    RadioGroup catagory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +83,15 @@ public class signUp extends AppCompatActivity {
         teacher = (RadioButton) findViewById(R.id.teacher);
         staff = (RadioButton) findViewById(R.id.staff);
 
+        catagory=findViewById(R.id.catagory);
+
         unit = (Spinner) findViewById(R.id.unit);
         department = (Spinner) findViewById(R.id.department);
         year = (Spinner) findViewById(R.id.year);
         semester = (Spinner) findViewById(R.id.semester);
 
+
+       
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.unit, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

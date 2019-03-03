@@ -19,6 +19,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
         public MyFirebaseMessagingService() {
@@ -63,7 +65,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
+
+        if (remoteMessage.getData().isEmpty()) {
+            showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+        }else {
+            showNotification(remoteMessage.getData());
+        }
+
+
+
+
     }
 
 
@@ -85,5 +96,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         R.drawable.notification_large_icon2));
         NotificationManagerCompat manager= NotificationManagerCompat.from(this);
         manager.notify(0,builder.build());
+    }
+
+
+
+
+    private void showNotification(Map<String, String> data) {
+
+
+        String title = data.get("title");
+        String message = data.get("body");
+        String type=data.get("type");
+
+        Intent intent = new Intent(this, Notification.class);
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "VCR")
+                    .setContentTitle(title)
+                    .setSmallIcon(R.drawable.notification_large_icon)
+                    .setAutoCancel(true)
+                    .setContentText(message)
+                    .setContentIntent(pendingIntent)
+                    .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
+                            R.drawable.notification_large_icon2));
+            NotificationManagerCompat manager = NotificationManagerCompat.from(this);
+            manager.notify(0, builder.build());
+
     }
 }

@@ -1,9 +1,11 @@
 package mahfuz.virtualcr01;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -15,6 +17,11 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import org.json.JSONObject;
+
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,8 +50,8 @@ public class TomorrowEdit extends AppCompatActivity {
 
     FloatingActionButton save;
     String editdate;
-
-
+    String uid;
+    String unit, department, year, semester;
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth auth;
 
@@ -107,17 +114,33 @@ public class TomorrowEdit extends AppCompatActivity {
 
 
 
-
-        firebaseFirestore.collection("class").document("edit").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        uid = auth.getUid();
+        firebaseFirestore.collection("user").document(uid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                editdate= documentSnapshot.getString("nextdate").trim();
-                if(editdate.equals(nextday)){
-                    dynamicClass();
+
+                if (documentSnapshot != null) {
+                    unit = documentSnapshot.getString("unit");
+                    department = documentSnapshot.getString("department");
+                    year = documentSnapshot.getString("year");
+                    semester = documentSnapshot.getString("semester");
+
+                    firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("edit").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                            editdate= documentSnapshot.getString("nextdate").trim();
+                            if(editdate.equals(nextday)){
+                                dynamicClass();
+                            }
+                            else {
+                                staticClass();
+                            }
+                        }
+                    });
+
                 }
-                else {
-                    staticClass();
-                }
+
+
             }
         });
 
@@ -244,15 +267,10 @@ public class TomorrowEdit extends AppCompatActivity {
                 setRandomNumber.put("edited",timeMill);
                 firebaseFirestore.collection("class").document("tomorrowEdit").update(setRandomNumber);
 
-
-
-
+                new TodayEdit.Notify().execute(department,year,semester);
 
                 Intent intent =new Intent(TomorrowEdit.this,TabedActivity.class);
                 startActivity(intent);
-
-
-
 
             }
         });
@@ -261,6 +279,57 @@ public class TomorrowEdit extends AppCompatActivity {
     }
 
 
+    public static class Notify extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+
+
+            String department=params[0];
+            String year=params[1];
+            String semester=params[2];
+
+            try {
+
+                URL url = new URL("https://fcm.googleapis.com/fcm/send");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setUseCaches(false);
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Authorization", "key=AIzaSyBcjg4jnpZGMFNd5i45KFGpELLAZkyCp00");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                JSONObject json = new JSONObject();
+
+                json.put("to","/topics/"+department+year+semester);
+
+
+                JSONObject info = new JSONObject();
+                info.put("title", "Today's class schedule changed");   // Notification title
+                info.put("body", "Please check out the changes");// Notification body
+
+                info.put("type","today");
+
+
+                json.put("data", info);
+
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(json.toString());
+                wr.flush();
+                conn.getInputStream();
+
+            } catch (Exception e) {
+                Log.d("Error", "" + e);
+            }
+
+
+            return null;
+        }
+    }
 
 
     private void staticClass() {
