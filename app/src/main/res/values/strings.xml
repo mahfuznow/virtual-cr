@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Class Routine Assistant</string>
+    <string name="app_name">Virtual CR</string>
     <string name="title_activity_home">Home</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -41,6 +41,9 @@
     <string-array name="department">
         <item>--Department--</item>
     </string-array>
+    <string-array name="name">
+        <item>--Name--</item>
+    </string-array>
 
     <string-array name="unitA">
         <item>--Department--</item>
@@ -51,6 +54,23 @@
         <item>BME</item>
         <item>PME</item>
         <item>TE</item>
+    </string-array>
+
+    <string-array name="TeacherCSE">
+        <item>--Name--</item>
+        <item>SMG</item>
+        <item>MAH</item>
+        <item>MAR</item>
+        <item>NH</item>
+        <item>MAAN</item>
+        <item>NAS</item>
+        <item>MYA</item>
+        <item>MSH</item>
+        <item>JF</item>
+        <item>MS</item>
+        <item>AKD</item>
+        <item>JAF</item>
+
     </string-array>
 
     <string-array name="unitB">
