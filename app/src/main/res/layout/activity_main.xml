@@ -87,7 +87,6 @@
 
 
         <EditText
-
             android:id="@+id/email"
             android:layout_width="300dp"
             android:layout_height="0dp"
@@ -106,7 +105,6 @@
             android:typeface="serif" />
 
         <EditText
-
             android:id="@+id/pass"
             android:layout_width="300dp"
             android:layout_height="0dp"
@@ -149,7 +147,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/round_white"
-            android:entries="@array/name"
+            android:entries="@array/TeacherCSE"
             android:gravity="center"
             android:layout_marginTop="15dp"
             android:paddingLeft="10dp"

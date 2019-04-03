@@ -59,6 +59,7 @@
     <string-array name="TeacherCSE">
         <item>--Name--</item>
         <item>SMG</item>
+        <item>SH</item>
         <item>MAH</item>
         <item>MAR</item>
         <item>NH</item>
@@ -67,7 +68,6 @@
         <item>MYA</item>
         <item>MSH</item>
         <item>JF</item>
-        <item>SH</item>
         <item>AKD</item>
         <item>JAF</item>
 
