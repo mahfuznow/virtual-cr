@@ -50,7 +50,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="144" />
+                                                <entry key="scalingPercent" value="0" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -62,7 +62,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="scalingPercent" value="64" />
+                                                <entry key="scalingPercent" value="102" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -73,8 +74,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="ffffff" />
-                                      <entry key="foregroundImage" value="L:\Pictures\PicsArt_03-29-11.22.26.png" />
+                                      <entry key="backgroundColor" value="faf804" />
+                                      <entry key="backgroundImage" value="C:\Users\Mahfuz\3D Objects\trns.png" />
+                                      <entry key="foregroundImage" value="L:\Pictures\vcrIcon.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -96,6 +98,24 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                      <entry key="image">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="backgroundColor" value="fdf901" />
+                                      <entry key="imageAsset" value="L:\Pictures\PicsArt_03-29-11.22.26.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
