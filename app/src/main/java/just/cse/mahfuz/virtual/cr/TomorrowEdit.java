@@ -266,7 +266,7 @@ public class TomorrowEdit extends AppCompatActivity {
                 setRandomNumber.put("edited",timeMill);
                 firebaseFirestore.collection("class").document("tomorrowEdit").update(setRandomNumber);
 
-                new TodayEdit.Notify().execute(department,year,semester);
+                new Notify().execute(department,year,semester);
 
                 Intent intent =new Intent(TomorrowEdit.this, TabedActivity.class);
                 startActivity(intent);
