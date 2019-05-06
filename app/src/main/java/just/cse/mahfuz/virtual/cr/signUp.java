@@ -47,6 +47,7 @@ public class signUp extends AppCompatActivity {
 
     String identity, myunit, mydepartment,myyear,mysemester;
     Spinner unit, department,year,semester;
+    Spinner shortName;
 
     RadioGroup catagory;
     LinearLayout yearLayout;
@@ -70,6 +71,7 @@ public class signUp extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email);
         pass = (EditText) findViewById(R.id.pass);
         signUp = (Button) findViewById(R.id.signUp);
+        shortName=findViewById(R.id.shortName);
         dialog = new ProgressDialog(just.cse.mahfuz.virtual.cr.signUp.this);
 
 
@@ -243,20 +245,28 @@ public class signUp extends AppCompatActivity {
 
                     if (male.isChecked()) {
                         mygender = "male";
+                        shortName.setVisibility(View.GONE);
                     } else if (female.isChecked()) {
                         mygender = "female";
+                        shortName.setVisibility(View.GONE);
                     }
 
                     if (student.isChecked()) {
                         identity = "student";
                         studentReg();
+                        shortName.setVisibility(View.GONE);
                     } else if (cr.isChecked()) {
                         identity = "cr";
-                        crReg();
+                        studentReg();
+                        shortName.setVisibility(View.GONE);
+                        //crReg();
                     } else if (teacher.isChecked()) {
                         identity = "teacher";
+                        shortName.setVisibility(View.VISIBLE);
+
                     } else if (staff.isChecked()) {
                         identity = "staff";
+                        shortName.setVisibility(View.GONE);
                     }
 
 
