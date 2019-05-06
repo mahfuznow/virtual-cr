@@ -238,11 +238,48 @@
             </LinearLayout>
 
 
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/shortNameLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/yearlayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="horizontal">
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="#ffff">
+
+                    <Spinner
+                        android:id="@+id/shortName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:entries="@array/TeacherCSE"
+                        >
+
+                    </Spinner>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
             <EditText
                 android:id="@+id/roll"
                 android:layout_width="300dp"
                 android:layout_height="45dp"
-                android:layout_below="@+id/yearlayout"
+                android:layout_below="@+id/shortNameLayout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/round_white"

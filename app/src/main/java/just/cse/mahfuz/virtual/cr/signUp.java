@@ -249,8 +249,10 @@ public class signUp extends AppCompatActivity {
 
                     if (student.isChecked()) {
                         identity = "student";
+                        studentReg();
                     } else if (cr.isChecked()) {
                         identity = "cr";
+                        crReg();
                     } else if (teacher.isChecked()) {
                         identity = "teacher";
                     } else if (staff.isChecked()) {
@@ -262,95 +264,165 @@ public class signUp extends AppCompatActivity {
 
 
 
-                    if (myunit != null && mydepartment != null && myyear != null && mysemester != null) {
 
-
-                        if (!TextUtils.isEmpty(myname) && !TextUtils.isEmpty(myroll) && !TextUtils.isEmpty(myemail) && !TextUtils.isEmpty(mypass)) {
-
-
-                            auth.createUserWithEmailAndPassword(myemail, mypass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        dialog.dismiss();
-                                        Intent homeintent = new Intent(just.cse.mahfuz.virtual.cr.signUp.this, MainActivity.class);
-                                        Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Registration successfully completed", Toast.LENGTH_SHORT).show();
-                                        startActivity(homeintent);
-                                        finish();
-
-
-                                        // Write data to the database
-
-
-                                        uid = auth.getUid();
-
-                                        //writing into firebase database
-
-                                        PrimaryKeyUid = new Firebase("https://virtual-cr.firebaseio.com/users/" + uid);
-                                        Firebase userName = PrimaryKeyUid.child("name");
-                                        userName.setValue(myname);
-                                        Firebase userRoll = PrimaryKeyUid.child("roll");
-                                        userRoll.setValue(myroll);
-                                        Firebase userPhone = PrimaryKeyUid.child("phone");
-                                        userPhone.setValue(myphone);
-                                        Firebase userEmail = PrimaryKeyUid.child("email");
-                                        userEmail.setValue(myemail);
-                                        Firebase userPass = PrimaryKeyUid.child("password");
-                                        userPass.setValue(mypass);
-
-
-                                        //Writing into firestore
-
-                                        Map<String, String> setvalue = new HashMap<>();
-                                        setvalue.put("name", myname);
-                                        setvalue.put("gender", mygender.toLowerCase());
-                                        setvalue.put("unit", myunit.toLowerCase());
-                                        setvalue.put("department", mydepartment.toLowerCase());
-                                        setvalue.put("year", myyear.toLowerCase());
-                                        setvalue.put("semester", mysemester.toLowerCase());
-                                        setvalue.put("roll", myroll);
-                                        setvalue.put("phone", myphone);
-                                        setvalue.put("email", myemail);
-                                        setvalue.put("pass", mypass);
-                                        setvalue.put("identity", identity.toLowerCase());
-                                        myFirestore.collection("user").document(uid).set(setvalue);
-
-
-                                    }
-
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    if (e instanceof FirebaseAuthUserCollisionException) {
-                                        Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "An account already exist with this email", Toast.LENGTH_SHORT).show();
-                                        dialog.dismiss();
-                                    } else if (e instanceof FirebaseAuthWeakPasswordException) {
-                                        Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Please use a strong password using both number & characters minimum 6 digit", Toast.LENGTH_SHORT).show();
-                                        dialog.dismiss();
-                                    } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                                        Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Invalid Email format", Toast.LENGTH_SHORT).show();
-                                        dialog.dismiss();
-                                    }
-                                }
-                            });
-
-
-                        } else {
-                            Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Please fill up all the required fields", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }
-
-
-                    } else {
-                        Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Select your Unit,Department,Year,Semester", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
 
                 }
             });
 
         }
 
+
+
+        public void studentReg() {
+            if (myunit != null && mydepartment != null && myyear != null && mysemester != null) {
+
+
+                if (!TextUtils.isEmpty(myname) && !TextUtils.isEmpty(myroll) && !TextUtils.isEmpty(myemail) && !TextUtils.isEmpty(mypass)) {
+
+
+                    auth.createUserWithEmailAndPassword(myemail, mypass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                dialog.dismiss();
+                                Intent homeintent = new Intent(just.cse.mahfuz.virtual.cr.signUp.this, MainActivity.class);
+                                Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Registration successfully completed", Toast.LENGTH_SHORT).show();
+                                startActivity(homeintent);
+                                finish();
+
+
+                                // Write data to the database
+
+
+                                uid = auth.getUid();
+
+                                //writing into firebase database
+
+                                PrimaryKeyUid = new Firebase("https://virtual-cr.firebaseio.com/users/" + uid);
+                                Firebase userName = PrimaryKeyUid.child("name");
+                                userName.setValue(myname);
+                                Firebase userRoll = PrimaryKeyUid.child("roll");
+                                userRoll.setValue(myroll);
+                                Firebase userPhone = PrimaryKeyUid.child("phone");
+                                userPhone.setValue(myphone);
+                                Firebase userEmail = PrimaryKeyUid.child("email");
+                                userEmail.setValue(myemail);
+                                Firebase userPass = PrimaryKeyUid.child("password");
+                                userPass.setValue(mypass);
+
+
+                                //Writing into firestore
+
+                                Map<String, String> setvalue = new HashMap<>();
+                                setvalue.put("name", myname);
+                                setvalue.put("gender", mygender.toLowerCase());
+                                setvalue.put("unit", myunit.toLowerCase());
+                                setvalue.put("department", mydepartment.toLowerCase());
+                                setvalue.put("year", myyear.toLowerCase());
+                                setvalue.put("semester", mysemester.toLowerCase());
+                                setvalue.put("roll", myroll);
+                                setvalue.put("phone", myphone);
+                                setvalue.put("email", myemail);
+                                setvalue.put("pass", mypass);
+                                setvalue.put("identity", identity.toLowerCase());
+                                myFirestore.collection("user").document(uid).set(setvalue);
+
+
+                            }
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            if (e instanceof FirebaseAuthUserCollisionException) {
+                                Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "An account already exist with this email", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            } else if (e instanceof FirebaseAuthWeakPasswordException) {
+                                Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Please use a strong password using both number & characters minimum 6 digit", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Invalid Email format", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        }
+                    });
+
+
+                } else {
+                    Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Please fill up all the required fields", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+
+
+            } else {
+                Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Select your Unit,Department,Year,Semester", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        }
+
+        public void  crReg() {
+            if (myunit != null && mydepartment != null && myyear != null && mysemester != null) {
+
+
+                if (!TextUtils.isEmpty(myname) && !TextUtils.isEmpty(myroll) && !TextUtils.isEmpty(myemail) && !TextUtils.isEmpty(mypass)) {
+                                Map<String, String> setvalue = new HashMap<>();
+                                setvalue.put("name", myname);
+                                setvalue.put("gender", mygender.toLowerCase());
+                                setvalue.put("unit", myunit.toLowerCase());
+                                setvalue.put("department", mydepartment.toLowerCase());
+                                setvalue.put("year", myyear.toLowerCase());
+                                setvalue.put("semester", mysemester.toLowerCase());
+                                setvalue.put("roll", myroll);
+                                setvalue.put("phone", myphone);
+                                setvalue.put("email", myemail);
+                                setvalue.put("pass", mypass);
+                                setvalue.put("identity", identity.toLowerCase());
+                                myFirestore.collection("pendingUser").document().set(setvalue);
+                    dialog.dismiss();
+                    Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Registration is pending, You can LogIn after the approval", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else {
+                    Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Please fill up all the required fields", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+
+            } else {
+                Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Select your Unit,Department,Year,Semester", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        }
+        public void  teacherReg() {
+        if (myunit != null && mydepartment != null && myyear != null) {
+
+
+            if (!TextUtils.isEmpty(myname) && !TextUtils.isEmpty(myroll) && !TextUtils.isEmpty(myemail) && !TextUtils.isEmpty(mypass)) {
+                Map<String, String> setvalue = new HashMap<>();
+                setvalue.put("name", myname);
+                setvalue.put("gender", mygender.toLowerCase());
+                setvalue.put("unit", myunit.toLowerCase());
+                setvalue.put("department", mydepartment.toLowerCase());
+                setvalue.put("year", myyear.toLowerCase());
+                setvalue.put("semester", mysemester.toLowerCase());
+                setvalue.put("roll", myroll);
+                setvalue.put("phone", myphone);
+                setvalue.put("email", myemail);
+                setvalue.put("pass", mypass);
+                setvalue.put("identity", identity.toLowerCase());
+                myFirestore.collection("pendingUser").document().set(setvalue);
+                dialog.dismiss();
+                Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Registration is pending, You can LogIn after the approval", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else {
+                Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Please fill up all the required fields", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+
+        } else {
+            Toast.makeText(just.cse.mahfuz.virtual.cr.signUp.this, "Select your Unit,Department,Year,Semester", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        }
+    }
 
     }

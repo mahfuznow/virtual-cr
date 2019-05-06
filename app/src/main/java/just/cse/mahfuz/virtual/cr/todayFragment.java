@@ -1,16 +1,25 @@
 package just.cse.mahfuz.virtual.cr;
 
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -54,6 +63,7 @@ String date;
 FirebaseFirestore firebaseFirestore,firebaseFirestore1,firebaseFirestore2;
 FirebaseAuth auth;
 
+ProgressDialog dialog;
 
 String tDepartment,tName;
 
@@ -112,6 +122,7 @@ String tDepartment,tName;
         firebaseFirestore1 = FirebaseFirestore.getInstance();
         firebaseFirestore2 = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+        dialog= new ProgressDialog(getContext());
 
 
         //getting today's dayOfWeek
@@ -142,6 +153,63 @@ String tDepartment,tName;
         if (!TextUtils.isEmpty(tDepartment) && !TextUtils.isEmpty(tName)) {
             //load content for teacher
 
+            fabedit.show();
+
+            fabedit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                    View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.custom_layout, null);
+                    builder.setView(view1);
+                    builder.setCancelable(true);
+                    final AlertDialog alertDialog = builder.create();
+
+
+                    final EditText email= view1.findViewById(R.id.email);
+                    final EditText pass=view1.findViewById(R.id.pass);
+                    Button logIn=view1.findViewById(R.id.login);
+
+                    logIn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            dialog.setMessage("Please Wait....");
+                            dialog.show();
+                           String myemail = email.getText().toString().trim();
+                           String mypass = pass.getText().toString().trim();
+
+                            if (!TextUtils.isEmpty(myemail) && !TextUtils.isEmpty(mypass)) {
+
+                                auth.signInWithEmailAndPassword(myemail, mypass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            dialog.dismiss();
+                                            Intent intent = new Intent(getContext(), TodayEdit.class);
+                                            intent.putExtra("tDepartment",tDepartment);
+                                            intent.putExtra("tName",tName);
+                                            startActivity(intent);
+
+                                        } else {
+                                            Toast.makeText(getContext(), "LogIn failed. Please input correct email & password", Toast.LENGTH_SHORT).show();
+                                            dialog.dismiss();
+                                        }
+                                    }
+                                });
+
+                            }
+                            else {
+                                Toast.makeText(getContext(),"Please fill up all the required fields",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        }
+                    });
+
+                    alertDialog.show();
+                }
+            });
+
             firebaseFirestore.collection("university").document("just").collection("a").document(tDepartment).collection("teacher").document(tName).collection(day).document("class1").addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -167,6 +235,8 @@ String tDepartment,tName;
 
                 }
             });
+
+
 
 
 
@@ -223,6 +293,9 @@ String tDepartment,tName;
 
                 }
             });
+
+
+
         }
 
 

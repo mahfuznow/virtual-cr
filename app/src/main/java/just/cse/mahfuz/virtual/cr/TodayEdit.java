@@ -1,10 +1,12 @@
 package just.cse.mahfuz.virtual.cr;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -47,6 +49,10 @@ public class TodayEdit extends AppCompatActivity {
     String mytime5, mycourse5, mycourseId5, myteacher5, myroom5;
     String mytime6, mycourse6, mycourseId6, myteacher6, myroom6;
 
+    String nmytime1, nmycourse1, nmycourseId1, nmyteacher1, nmyroom1;
+    String nmytime2, nmycourse2, nmycourseId2, nmyteacher2, nmyroom2;
+    String nmytime3, nmycourse3, nmycourseId3, nmyteacher3, nmyroom3;
+
     FloatingActionButton save;
     String editdate, nexteditdate;
     String uid;
@@ -55,6 +61,11 @@ public class TodayEdit extends AppCompatActivity {
 
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth auth;
+
+
+    ProgressDialog dialog;
+
+    String tDepartment,tName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,166 +122,337 @@ public class TodayEdit extends AppCompatActivity {
 
 
         uid = auth.getUid();
-        firebaseFirestore.collection("user").document(uid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
 
-                if (documentSnapshot != null) {
-                    unit = documentSnapshot.getString("unit");
-                    department = documentSnapshot.getString("department");
-                    year = documentSnapshot.getString("year");
-                    semester = documentSnapshot.getString("semester");
 
-                    firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("edit").addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                            editdate = documentSnapshot.getString("date").trim();
-                            nexteditdate = documentSnapshot.getString("nextdate").trim();
-                            if (editdate.equals(day)) {
-                                dynamicClass();
-                            } else if (nexteditdate.equals(day)) {
-                                dynamicClass();
-                            } else {
-                                staticClass();
-                            }
+        try {
+            tDepartment = getIntent().getStringExtra("tDepartment").toLowerCase();
+            tName = getIntent().getStringExtra("tName");
+
+        } catch (Exception e) {
+
+        }
+
+
+        if (!TextUtils.isEmpty(tDepartment) && !TextUtils.isEmpty(tName)) {
+            //load content for teacher
+
+
+            firebaseFirestore.collection("university").document("just").collection("a").document(tDepartment).collection("teacher").document(tName).collection(day).document("class1").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                    if (documentSnapshot != null) {
+                        mytime1 = documentSnapshot.getString("time");
+                        //mycourse1 =documentSnapshot.getString("course");
+                        mycourseId1 = documentSnapshot.getString("courseId");
+                        //myteacher1 =documentSnapshot.getString("teacher");
+                        myroom1 = documentSnapshot.getString("room");
+
+                        time1.setText(mytime1);
+                        //course1.setText(mycourse1);
+                        courseId1.setText(mycourseId1);
+
+                        if (!TextUtils.isEmpty(mytime1)) {
+                            teacher1.setText(tName);
                         }
-                    });
+
+                        room1.setText(myroom1);
+
+                    }
 
                 }
+            });
 
 
-            }
-        });
+            firebaseFirestore.collection("university").document("just").collection("a").document(tDepartment).collection("teacher").document(tName).collection(day).document("class2").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                    if (documentSnapshot != null) {
+                        mytime2 = documentSnapshot.getString("time");
+                        //mycourse1 =documentSnapshot.getString("course");
+                        mycourseId2 = documentSnapshot.getString("courseId");
+                        //myteacher1 =documentSnapshot.getString("teacher");
+                        myroom2 = documentSnapshot.getString("room");
+
+                        time2.setText(mytime2);
+                        //course1.setText(mycourse1);
+                        courseId2.setText(mycourseId2);
+
+                        if (!TextUtils.isEmpty(mytime2)) {
+                            teacher2.setText(tName);
+                        }
+
+                        room2.setText(myroom2);
+
+                    }
+
+                }
+            });
 
 
-        //save data to dynamic class schedule
+            firebaseFirestore.collection("university").document("just").collection("a").document(tDepartment).collection("teacher").document(tName).collection(day).document("class3").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                    if (documentSnapshot != null) {
+                        mytime3 = documentSnapshot.getString("time");
+                        //mycourse1 =documentSnapshot.getString("course");
+                        mycourseId3 = documentSnapshot.getString("courseId");
+                        //myteacher1 =documentSnapshot.getString("teacher");
+                        myroom3 = documentSnapshot.getString("room");
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                        time3.setText(mytime3);
+                        //course1.setText(mycourse1);
+                        courseId3.setText(mycourseId3);
 
+                        if (!TextUtils.isEmpty(mytime3)) {
+                            teacher3.setText(tName);
+                        }
 
-                mytime1 = time1.getText().toString().trim();
-                mycourseId1 = courseId1.getText().toString().trim();
-                mycourse1 = course1.getText().toString().trim();
-                myteacher1 = teacher1.getText().toString().trim();
-                myroom1 = room1.getText().toString().trim();
+                        room3.setText(myroom3);
 
-                mytime2 = time2.getText().toString().trim();
-                mycourseId2 = courseId2.getText().toString().trim();
-                mycourse2 = course2.getText().toString().trim();
-                myteacher2 = teacher2.getText().toString().trim();
-                myroom2 = room2.getText().toString().trim();
+                    }
 
-                mytime3 = time3.getText().toString().trim();
-                mycourseId3 = courseId3.getText().toString().trim();
-                mycourse3 = course3.getText().toString().trim();
-                myteacher3 = teacher3.getText().toString().trim();
-                myroom3 = room3.getText().toString().trim();
-
-                mytime4 = time4.getText().toString().trim();
-                mycourseId4 = courseId4.getText().toString().trim();
-                mycourse4 = course4.getText().toString().trim();
-                myteacher4 = teacher4.getText().toString().trim();
-                myroom4 = room4.getText().toString().trim();
-
-                mytime5 = time5.getText().toString().trim();
-                mycourseId5 = courseId5.getText().toString().trim();
-                mycourse5 = course5.getText().toString().trim();
-                myteacher5 = teacher5.getText().toString().trim();
-                myroom5 = room5.getText().toString().trim();
-
-                mytime6 = time6.getText().toString().trim();
-                mycourseId6 = courseId6.getText().toString().trim();
-                mycourse6 = course6.getText().toString().trim();
-                myteacher6 = teacher6.getText().toString().trim();
-                myroom6 = room6.getText().toString().trim();
+                }
+            });
 
 
-                Map<String, String> setvalue1 = new HashMap<>();
-                setvalue1.put("time", mytime1);
-                setvalue1.put("courseId", mycourseId1);
-                setvalue1.put("course", mycourse1);
-                setvalue1.put("teacher", myteacher1);
-                setvalue1.put("room", myroom1);
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    nmytime1 = time1.getText().toString().trim();
+                    nmycourseId1 = courseId1.getText().toString().trim();
+                    nmycourse1 = course1.getText().toString().trim();
+                    nmyteacher1 = teacher1.getText().toString().trim();
+                    nmyroom1 = room1.getText().toString().trim();
 
-                firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class1").set(setvalue1);
+                    nmytime2 = time2.getText().toString().trim();
+                    nmycourseId2 = courseId2.getText().toString().trim();
+                    nmycourse2 = course2.getText().toString().trim();
+                    nmyteacher2 = teacher2.getText().toString().trim();
+                    nmyroom2 = room2.getText().toString().trim();
 
-
-                Map<String, String> setvalue2 = new HashMap<>();
-                setvalue2.put("time", mytime2);
-                setvalue2.put("courseId", mycourseId2);
-                setvalue2.put("course", mycourse2);
-                setvalue2.put("teacher", myteacher2);
-                setvalue2.put("room", myroom2);
-
-                firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class2").set(setvalue2);
-
-
-                Map<String, String> setvalue3 = new HashMap<>();
-                setvalue3.put("time", mytime3);
-                setvalue3.put("courseId", mycourseId3);
-                setvalue3.put("course", mycourse3);
-                setvalue3.put("teacher", myteacher3);
-                setvalue3.put("room", myroom3);
-
-                firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class3").set(setvalue3);
-
-                Map<String, String> setvalue4 = new HashMap<>();
-                setvalue4.put("time", mytime4);
-                setvalue4.put("courseId", mycourseId4);
-                setvalue4.put("course", mycourse4);
-                setvalue4.put("teacher", myteacher4);
-                setvalue4.put("room", myroom4);
-
-                firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class4").set(setvalue4);
+                    nmytime3 = time3.getText().toString().trim();
+                    nmycourseId3 = courseId3.getText().toString().trim();
+                    nmycourse3 = course3.getText().toString().trim();
+                    nmyteacher3 = teacher3.getText().toString().trim();
+                    nmyroom3 = room3.getText().toString().trim();
 
 
-                Map<String, String> setvalue5 = new HashMap<>();
-                setvalue5.put("time", mytime5);
-                setvalue5.put("courseId", mycourseId5);
-                setvalue5.put("course", mycourse5);
-                setvalue5.put("teacher", myteacher5);
-                setvalue5.put("room", myroom5);
+                    if (!mytime1.equals(nmytime1) || !nmyroom1.equals(nmyroom1)) {
+                        String year= String.valueOf(mycourse1.charAt(4));
+                        String sem= String.valueOf(mycourse1.charAt(5));
 
-                firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class5").set(setvalue5);
+                        Map<String, String> setvalue1 = new HashMap<>();
+                        setvalue1.put("time", mytime1);
+                        setvalue1.put("courseId", mycourseId1);
+                        setvalue1.put("course", mycourse1);
+                        setvalue1.put("teacher", myteacher1);
+                        setvalue1.put("room", myroom1);
 
-                Map<String, String> setvalue6 = new HashMap<>();
-                setvalue6.put("time", mytime6);
-                setvalue6.put("courseId", mycourseId6);
-                setvalue6.put("course", mycourse6);
-                setvalue6.put("teacher", myteacher6);
-                setvalue6.put("room", myroom6);
+                        firebaseFirestore.collection("university").document("just").collection(unit).document(tDepartment).collection(year).document(sem).collection("class").document("dynamic").collection(day).document("class1").set(setvalue1);
 
-                firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class6").set(setvalue6);
+                        new Notify().execute(tDepartment, year, sem);
+                    }
+
+                    if (!mytime2.equals(nmytime2) || !nmyroom2.equals(nmyroom2)) {
+                        String year= String.valueOf(mycourse2.charAt(4));
+                        String sem= String.valueOf(mycourse2.charAt(5));
+
+                        Map<String, String> setvalue2 = new HashMap<>();
+                        setvalue2.put("time", mytime2);
+                        setvalue2.put("courseId", mycourseId2);
+                        setvalue2.put("course", mycourse2);
+                        setvalue2.put("teacher", myteacher2);
+                        setvalue2.put("room", myroom2);
+
+                        firebaseFirestore.collection("university").document("just").collection(unit).document(tDepartment).collection(year).document(sem).collection("class").document("dynamic").collection(day).document("class2").set(setvalue2);
+
+                        new Notify().execute(tDepartment, year, sem);
+                    }
+
+                    if (!mytime3.equals(nmytime3) || !nmyroom3.equals(nmyroom3)) {
+                        String year= String.valueOf(mycourse1.charAt(4));
+                        String sem= String.valueOf(mycourse1.charAt(5));
+
+                        Map<String, String> setvalue3 = new HashMap<>();
+                        setvalue3.put("time", mytime3);
+                        setvalue3.put("courseId", mycourseId3);
+                        setvalue3.put("course", mycourse3);
+                        setvalue3.put("teacher", myteacher3);
+                        setvalue3.put("room", myroom3);
+
+                        firebaseFirestore.collection("university").document("just").collection(unit).document(tDepartment).collection(year).document(sem).collection("class").document("dynamic").collection(day).document("class3").set(setvalue3);
+
+                        new Notify().execute(tDepartment, year, sem);
+                    }
 
 
-                //setting edit date in firebase
-                Map<String, Object> setEditDate = new HashMap<>();
-                setEditDate.put("date", day);
-                firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("edit").update(setEditDate);
+                }
+            });
 
 
-                //Setting random number to triger fcm notification
-                long timeMill;
-                timeMill = System.currentTimeMillis();
+        } else {
 
-                Map<String, Object> setRandomNumber = new HashMap<>();
-                setRandomNumber.put("edited", timeMill);
-                firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("todayEdit").update(setRandomNumber);
 
-                new Notify().execute(department,year,semester);
+            firebaseFirestore.collection("user").document(uid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
 
-                Intent intent = new Intent(TodayEdit.this, TabedActivity.class);
-                startActivity(intent);
+                    if (documentSnapshot != null) {
+                        unit = documentSnapshot.getString("unit");
+                        department = documentSnapshot.getString("department");
+                        year = documentSnapshot.getString("year");
+                        semester = documentSnapshot.getString("semester");
 
-            }
-        });
+                        firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("edit").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                                editdate = documentSnapshot.getString("date").trim();
+                                nexteditdate = documentSnapshot.getString("nextdate").trim();
+                                if (editdate.equals(day)) {
+                                    dynamicClass();
+                                } else if (nexteditdate.equals(day)) {
+                                    dynamicClass();
+                                } else {
+                                    staticClass();
+                                }
+                            }
+                        });
 
+                    }
+
+
+                }
+            });
+
+
+            //save data to dynamic class schedule
+
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    mytime1 = time1.getText().toString().trim();
+                    mycourseId1 = courseId1.getText().toString().trim();
+                    mycourse1 = course1.getText().toString().trim();
+                    myteacher1 = teacher1.getText().toString().trim();
+                    myroom1 = room1.getText().toString().trim();
+
+                    mytime2 = time2.getText().toString().trim();
+                    mycourseId2 = courseId2.getText().toString().trim();
+                    mycourse2 = course2.getText().toString().trim();
+                    myteacher2 = teacher2.getText().toString().trim();
+                    myroom2 = room2.getText().toString().trim();
+
+                    mytime3 = time3.getText().toString().trim();
+                    mycourseId3 = courseId3.getText().toString().trim();
+                    mycourse3 = course3.getText().toString().trim();
+                    myteacher3 = teacher3.getText().toString().trim();
+                    myroom3 = room3.getText().toString().trim();
+
+                    mytime4 = time4.getText().toString().trim();
+                    mycourseId4 = courseId4.getText().toString().trim();
+                    mycourse4 = course4.getText().toString().trim();
+                    myteacher4 = teacher4.getText().toString().trim();
+                    myroom4 = room4.getText().toString().trim();
+
+                    mytime5 = time5.getText().toString().trim();
+                    mycourseId5 = courseId5.getText().toString().trim();
+                    mycourse5 = course5.getText().toString().trim();
+                    myteacher5 = teacher5.getText().toString().trim();
+                    myroom5 = room5.getText().toString().trim();
+
+                    mytime6 = time6.getText().toString().trim();
+                    mycourseId6 = courseId6.getText().toString().trim();
+                    mycourse6 = course6.getText().toString().trim();
+                    myteacher6 = teacher6.getText().toString().trim();
+                    myroom6 = room6.getText().toString().trim();
+
+
+                    Map<String, String> setvalue1 = new HashMap<>();
+                    setvalue1.put("time", mytime1);
+                    setvalue1.put("courseId", mycourseId1);
+                    setvalue1.put("course", mycourse1);
+                    setvalue1.put("teacher", myteacher1);
+                    setvalue1.put("room", myroom1);
+
+                    firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class1").set(setvalue1);
+
+
+                    Map<String, String> setvalue2 = new HashMap<>();
+                    setvalue2.put("time", mytime2);
+                    setvalue2.put("courseId", mycourseId2);
+                    setvalue2.put("course", mycourse2);
+                    setvalue2.put("teacher", myteacher2);
+                    setvalue2.put("room", myroom2);
+
+                    firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class2").set(setvalue2);
+
+
+                    Map<String, String> setvalue3 = new HashMap<>();
+                    setvalue3.put("time", mytime3);
+                    setvalue3.put("courseId", mycourseId3);
+                    setvalue3.put("course", mycourse3);
+                    setvalue3.put("teacher", myteacher3);
+                    setvalue3.put("room", myroom3);
+
+                    firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class3").set(setvalue3);
+
+                    Map<String, String> setvalue4 = new HashMap<>();
+                    setvalue4.put("time", mytime4);
+                    setvalue4.put("courseId", mycourseId4);
+                    setvalue4.put("course", mycourse4);
+                    setvalue4.put("teacher", myteacher4);
+                    setvalue4.put("room", myroom4);
+
+                    firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class4").set(setvalue4);
+
+
+                    Map<String, String> setvalue5 = new HashMap<>();
+                    setvalue5.put("time", mytime5);
+                    setvalue5.put("courseId", mycourseId5);
+                    setvalue5.put("course", mycourse5);
+                    setvalue5.put("teacher", myteacher5);
+                    setvalue5.put("room", myroom5);
+
+                    firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class5").set(setvalue5);
+
+                    Map<String, String> setvalue6 = new HashMap<>();
+                    setvalue6.put("time", mytime6);
+                    setvalue6.put("courseId", mycourseId6);
+                    setvalue6.put("course", mycourse6);
+                    setvalue6.put("teacher", myteacher6);
+                    setvalue6.put("room", myroom6);
+
+                    firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("dynamic").collection(day).document("class6").set(setvalue6);
+
+
+                    //setting edit date in firebase
+                    Map<String, Object> setEditDate = new HashMap<>();
+                    setEditDate.put("date", day);
+                    firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("edit").update(setEditDate);
+
+
+                    //Setting random number to triger fcm notification
+                    long timeMill;
+                    timeMill = System.currentTimeMillis();
+
+                    Map<String, Object> setRandomNumber = new HashMap<>();
+                    setRandomNumber.put("edited", timeMill);
+                    firebaseFirestore.collection("university").document("just").collection(unit).document(department).collection(year).document(semester).collection("class").document("todayEdit").update(setRandomNumber);
+
+                    new Notify().execute(department, year, semester);
+
+                    Intent intent = new Intent(TodayEdit.this, TabedActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+
+
+        }
 
     }
-
-
 
 
     public static class Notify extends AsyncTask<String, Void, Void> {
@@ -279,10 +461,9 @@ public class TodayEdit extends AppCompatActivity {
         protected Void doInBackground(String... params) {
 
 
-
-            String department=params[0];
-            String year=params[1];
-            String semester=params[2];
+            String department = params[0];
+            String year = params[1];
+            String semester = params[2];
 
             try {
 
@@ -299,16 +480,14 @@ public class TodayEdit extends AppCompatActivity {
 
                 JSONObject json = new JSONObject();
 
-                json.put("to","/topics/"+department+year+semester);
+                json.put("to", "/topics/" + department + year + semester);
 
 
                 JSONObject info = new JSONObject();
                 info.put("title", "Today's class schedule changed");   // Notification title
                 info.put("body", "Please check out the changes");// Notification body
 
-                info.put("type","today");
-
-
+                info.put("type", "today");
 
 
                 json.put("data", info);
