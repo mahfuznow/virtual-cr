@@ -236,55 +236,66 @@ public class TodayEdit extends AppCompatActivity {
                     nmyteacher3 = teacher3.getText().toString().trim();
                     nmyroom3 = room3.getText().toString().trim();
 
+                    if (!TextUtils.isEmpty(mycourseId1)) {
+                        if (!mytime1.equals(nmytime1) || !myroom1.equals(nmyroom1)) {
+                            String year= String.valueOf(mycourseId1.charAt(4));
+                            String sem= String.valueOf(mycourseId1.charAt(5));
 
-                    if (!mytime1.equals(nmytime1) || !nmyroom1.equals(nmyroom1)) {
-                        String year= String.valueOf(mycourse1.charAt(4));
-                        String sem= String.valueOf(mycourse1.charAt(5));
+                            Map<String, String> setvalue1 = new HashMap<>();
+                            setvalue1.put("time", mytime1);
+                            setvalue1.put("courseId", mycourseId1);
+                            setvalue1.put("course", mycourse1);
+                            setvalue1.put("teacher", myteacher1);
+                            setvalue1.put("room", myroom1);
 
-                        Map<String, String> setvalue1 = new HashMap<>();
-                        setvalue1.put("time", mytime1);
-                        setvalue1.put("courseId", mycourseId1);
-                        setvalue1.put("course", mycourse1);
-                        setvalue1.put("teacher", myteacher1);
-                        setvalue1.put("room", myroom1);
+                            firebaseFirestore.collection("university").document("just").collection("a").document(tDepartment).collection(year).document(sem).collection("class").document("dynamic").collection(day).document("class1").set(setvalue1);
 
-                        firebaseFirestore.collection("university").document("just").collection(unit).document(tDepartment).collection(year).document(sem).collection("class").document("dynamic").collection(day).document("class1").set(setvalue1);
-
-                        new Notify().execute(tDepartment, year, sem);
+                            new Notify().execute(tDepartment, year, sem);
+                        }
                     }
 
-                    if (!mytime2.equals(nmytime2) || !nmyroom2.equals(nmyroom2)) {
-                        String year= String.valueOf(mycourse2.charAt(4));
-                        String sem= String.valueOf(mycourse2.charAt(5));
 
-                        Map<String, String> setvalue2 = new HashMap<>();
-                        setvalue2.put("time", mytime2);
-                        setvalue2.put("courseId", mycourseId2);
-                        setvalue2.put("course", mycourse2);
-                        setvalue2.put("teacher", myteacher2);
-                        setvalue2.put("room", myroom2);
+                    if (!TextUtils.isEmpty(mycourseId2)) {
+                        if (!mytime2.equals(nmytime2) || !myroom2.equals(nmyroom2)) {
+                            String year= String.valueOf(mycourseId2.charAt(4));
+                            String sem= String.valueOf(mycourseId2.charAt(5));
 
-                        firebaseFirestore.collection("university").document("just").collection(unit).document(tDepartment).collection(year).document(sem).collection("class").document("dynamic").collection(day).document("class2").set(setvalue2);
+                            Map<String, String> setvalue2 = new HashMap<>();
+                            setvalue2.put("time", mytime2);
+                            setvalue2.put("courseId", mycourseId2);
+                            setvalue2.put("course", mycourse2);
+                            setvalue2.put("teacher", myteacher2);
+                            setvalue2.put("room", myroom2);
 
-                        new Notify().execute(tDepartment, year, sem);
+                            firebaseFirestore.collection("university").document("just").collection("a").document(tDepartment).collection(year).document(sem).collection("class").document("dynamic").collection(day).document("class2").set(setvalue2);
+
+                            new Notify().execute(tDepartment, year, sem);
+                        }
                     }
 
-                    if (!mytime3.equals(nmytime3) || !nmyroom3.equals(nmyroom3)) {
-                        String year= String.valueOf(mycourse1.charAt(4));
-                        String sem= String.valueOf(mycourse1.charAt(5));
 
-                        Map<String, String> setvalue3 = new HashMap<>();
-                        setvalue3.put("time", mytime3);
-                        setvalue3.put("courseId", mycourseId3);
-                        setvalue3.put("course", mycourse3);
-                        setvalue3.put("teacher", myteacher3);
-                        setvalue3.put("room", myroom3);
 
-                        firebaseFirestore.collection("university").document("just").collection(unit).document(tDepartment).collection(year).document(sem).collection("class").document("dynamic").collection(day).document("class3").set(setvalue3);
 
-                        new Notify().execute(tDepartment, year, sem);
+                    if (!TextUtils.isEmpty(mycourseId3)) {
+                        if (!mytime3.equals(nmytime3) || !myroom3.equals(nmyroom3)) {
+                            String year= String.valueOf(mycourseId1.charAt(4));
+                            String sem= String.valueOf(mycourseId1.charAt(5));
+
+                            Map<String, String> setvalue3 = new HashMap<>();
+                            setvalue3.put("time", mytime3);
+                            setvalue3.put("courseId", mycourseId3);
+                            setvalue3.put("course", mycourse3);
+                            setvalue3.put("teacher", myteacher3);
+                            setvalue3.put("room", myroom3);
+
+                            firebaseFirestore.collection("university").document("just").collection("a").document(tDepartment).collection(year).document(sem).collection("class").document("dynamic").collection(day).document("class3").set(setvalue3);
+
+                            new Notify().execute(tDepartment, year, sem);
+                        }
+
                     }
 
+                    finish();
 
                 }
             });
